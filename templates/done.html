@@ -1,0 +1,24 @@
+{% extends 'website.html' %}
+{% load static %}
+
+{% block title%} Done {% endblock %}
+
+{% block content %}
+
+<style>
+    img {
+        width: 150px;
+        height: 150px;
+    }
+</style>
+
+<center>
+    <img src="{% static 'website-images/done.png' %}" alt="">
+    <h1>Done, Your Message Send Sucessfully !</h1>
+    <div class="flex-form">
+        <a href="{% url 'signup' %}" class="btn bg">Signup</a>
+        <a href="{% url 'home' %}" class="btn nocover">Join us</a>
+    </div>
+</center>
+
+{% endblock %}

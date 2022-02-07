@@ -1,0 +1,157 @@
+{% extends 'website.html' %}
+{% load static %}
+
+{% block title %} Send Message to {{user}} {% endblock %}
+
+
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/send_msg.css' %}">
+<form action="." method="POST">
+    {% csrf_token %}
+
+    
+    
+    <div class="up">
+        <img src="{{user.profile.image.url}}" style="border-radius: 50%;" height="100px" width="100px" alt="">
+        <p>Send Message to {{user}}</p>
+    </div>
+    
+    <div class="msg">
+        <p>Message:</p>
+        <textarea required name="msg" id="" cols="30" rows="10"></textarea>
+        
+        {% for i in messages %}
+            <div class="done">{{i}}</div>
+        {% endfor %}
+        <div class="form">
+            <button type="submit" class="btn bg">Send </button>
+            <button class="btn bg" type="button" id="view">Voice</button>
+            <a href="{% url 'home' %}" class="btn border">join us</a>
+        </div>
+    </div>
+</form>
+
+<div class="voice-msg">
+    <img id="close" src="{% static 'website-images/x.png' %}" alt="" class="x">
+    <button id="play" >Record</button>
+    <button id="stop" class="stop"  style="display: none;" >Recording...</button>
+    <form enctype="multipart/form-data" id="voice_msg">
+        {% csrf_token %}
+        <div class="list">
+        </div>
+        <button id="send-v" class="btn">Send</button>
+    </form>
+</div>
+
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/send_msg.js' %}"></script>
+
+
+<script>
+
+    // record audio
+var rec_btn = document.getElementById('play');
+var stop_btn = document.getElementById('stop');
+var form = document.querySelector('.voice-msg');
+var list = document.querySelector('.list');
+let chunks = []
+
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+
+    navigator.mediaDevices.getUserMedia({audio:true})
+    .then(function(stream){
+        const media_recorder = new MediaRecorder(stream);
+        
+        
+        
+        rec_btn.onclick = function(){
+            console.log(media_recorder.state)
+            media_recorder.start();
+            rec_btn.style.display = 'none';
+            stop_btn.style.display = 'block';
+        }
+        
+        media_recorder.ondataavailable  = function(e){
+            chunks.push(e.data)
+        }
+        
+        stop_btn.onclick = function(){
+            stop_btn.style.display = 'none';
+            rec_btn.style.display = 'block';
+            media_recorder.stop();
+            document.getElementById('send-v').classList.add('view')
+            
+        }
+        
+        
+        media_recorder.onstop = function(e){
+            let audio = document.createElement('audio');
+            audio.setAttribute('controls','')
+            audio.setAttribute('name','voice')
+            let blob = new Blob(chunks,{ 'type' : 'audio/ogg; codecs=opus' });
+            
+            // ajax post
+            var Data = new FormData();
+            Data.append('audio',blob);
+            Data.append('test','this is a test msg')
+            Data.append('csrfmiddlewaretoken',$('input[name=csrfmiddlewaretoken]').val());
+            
+            
+            $("#voice_msg").submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url:"{% url 'voice_msg' user.username %}",
+                    type:"POST",
+                    data:Data,
+                    contentType:false,
+                    processData:false,
+                    cache:false,
+                    success:function(done){
+                        console.log("Data has been sent to the server !",done)
+                        window.location.href = "{% url 'done' %}";
+                    },
+                    error:function(error){
+                        console.log("Error",error)
+                    }
+                })
+            })
+
+
+
+
+
+            chunks = [];
+            let ad_url = window.URL.createObjectURL(blob);
+            audio.src = ad_url;
+            list.innerHTML = '';
+            list.append(audio);
+            console.log(blob)
+
+            
+
+
+
+
+
+
+
+        }
+        
+    })
+
+    .catch(function(error){
+        console.log('error',error)
+    })
+    
+    
+    
+}else {
+    alert('There is an error with your browser')
+}
+    
+</script>
+{% endblock %}

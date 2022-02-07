@@ -1,0 +1,41 @@
+{% extends 'website.html' %}
+
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<style>
+    p{ 
+        margin-top: 10px;
+    }
+    ul{
+        display: none;
+    }
+</style>
+
+<h1>Login</h1>
+<form action="." method="POST">
+    {% csrf_token %}
+    
+    
+    <!-- handel errors -->
+    {% for key,val in form.errors.items %}
+        {% for i in val %}
+            <div class="error">{{i}}</div>
+        {% endfor %}
+    {% endfor %}
+    
+    <!-- form -->
+    {{form.as_p}}
+    
+
+    <!-- submit -->
+    <div class="flex-form">
+        <button type="submit" class="btn bg">Login</button>
+        <a href="{% url 'signup' %}" type="button" class="btn border">Signup</a>
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/library.css' %}">
+    <title>{{user}} Profile</title>
+</head>
+<body>
+    
+
+    <div class="up">
+        <div class="user">
+            <img style="border-radius: 50%;box-shadow: 0px 0px 7px rgba(0,0,0,0.15);" src="{{user.profile.image.url}}" width="100px" height="100px" alt="">
+            <p>{{user}}</p>
+        </div>
+
+        <div class="setting">
+            <img  width="36px" height="36px" src="{% static 'website-images/setting.png' %}" alt="">
+            <ul class="">
+                <li><a href="{% url 'edit' %}">Edit</a></li>
+                <li><a href="{% url 'password' %}">Password</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+
+        <div class="link">
+            <p>Your link :</p>
+            <input id="link" readonly value="" type="text">
+            <button id="copy">Copy</button>
+        </div>
+    </div>
+
+
+    <div class="msgs" style="overflow: auto;">
+        <h1>Messages({{msgs.count}})</h1>
+
+
+        {% for i in msgs %}
+            <div class="msg">
+                {% if i.voice %}
+                    <audio src="/{{ i.voice }}.ogg" controls></audio>
+                {% endif %}
+                <p>{{i.text}}</p>
+                <p class="date">{{i.date}}</p>
+                <a href="{% url 'del' i.id %}" class="del">Delete</a>
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+
+
+    <script>
+
+        // view menu
+        document.querySelector('.setting img').onclick = function(){
+            document.querySelector('.setting ul').classList.toggle('view')
+        }
+
+
+        // copy link in clipboard 
+        document.querySelector('#copy').onclick = function(){
+            document.getElementById('link').select();
+            document.execCommand('copy')
+            alert('link is copied !')
+        }
+
+
+        var url = location.host+"{% url 'send_msg' user.username %}";
+        document.getElementById('link').value = url;
+        
+
+
+    </script>
+</body>
+</html>

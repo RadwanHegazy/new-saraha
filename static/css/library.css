@@ -1,0 +1,145 @@
+:root{
+    --pr-color:#00b0ff;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background-color: #fff;
+}
+
+
+
+.btn {
+    margin-top: 15px;
+    width: 90px;
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+
+.btn.bg {
+    background-color: var(--pr-color);
+    color: #fff;
+    border: 1px solid var(--pr-color);
+}
+
+.btn.border {
+    color: var(--pr-color);
+    background-color: #fff;
+    border: 1px solid var(--pr-color);
+
+}
+
+.btn.nocover {
+    background-color: #fff;
+    color: var(--pr-color);
+    border: 1px solid #fff;
+}
+
+
+.flex-form {
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+}
+
+input {
+    width: 100%;
+    padding: 9px 14px ;
+    border: 1px solid var(--pr-color);
+    outline: none;
+    font-size: 15px;
+    color: var(--pr-color);
+    margin-top: 3px;
+    transition: all 0.4s ease;
+    background-color: #fff;
+}
+
+input::placeholder{
+    color: #00aeff75;
+}
+
+input:focus {
+    box-shadow: 0px 0px 4px var(--pr-color);
+    border-color: #fff;
+}
+
+
+h1 {
+    color: #00b0ff;
+    font-weight: 700;
+    font-family: sans-serif;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+p {
+    font-family: sans-serif;
+    color: rgb(0, 0, 0);
+    font-size: 0.9rem;
+    opacity: 0.5;
+}
+
+.top-cr {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-color: #00b0ff;
+    opacity: 0.35;
+    border-radius: 50%;
+    top: -121px;
+    left: -137px;
+}
+
+.down-cr {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background-color: #00b0ff;
+    opacity: 0.35;
+    border-radius: 50%;
+    bottom: -121px;
+    right: -137px;
+}
+
+
+.content {
+    position: relative;
+    max-width: 400px;
+    margin: 200px auto ;
+    padding: 11px;
+}
+
+.error {
+    font-family: sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 11px;
+    background-color: rgba(220, 20, 60, 0.659);
+    border: 1px solid crimson;
+    color: #f1f1f1;
+}
+
+.done {
+    font-family: sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 11px;
+    background-color: rgb(166 227 255);
+    border: 1px solid rgb(0 176 255);
+    color: #00b0ff;
+
+}

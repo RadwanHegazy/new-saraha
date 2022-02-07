@@ -1,0 +1,20 @@
+{% extends 'website.html' %}
+{% load static %}
+
+{% block title %}Home {% endblock %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<div class="up">
+    <h1>Welcome</h1>
+    <p>are you ready for the truth about you</p>
+</div>
+
+
+<div class="flex-form">
+    <a href="{% url 'login' %}" class="btn bg">Login</a>
+    <a href="{% url 'signup' %}" class="btn border">Signup</a>
+</div>
+
+{% endblock %}

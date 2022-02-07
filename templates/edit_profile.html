@@ -1,0 +1,80 @@
+{% extends 'website.html' %}
+
+{% block title %} Edit Porifle {% endblock %}
+
+
+
+{% block content %}
+
+<style>
+    .image {
+        width: 100%;
+        text-align: center;
+    }
+
+    .image img {
+        border-radius: 50%;
+        box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.15);
+    }
+
+    .image button {
+        width: 150px;
+        display: block;
+        text-align: center;
+        margin: auto;
+    }
+
+    p {
+        margin-top: 10px;
+    }
+
+</style>
+
+
+    <h1>Edit Profile</h1>
+
+    <div class="image">
+        <form action="." method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <img src="{{user.profile.image.url}}" width="100px" height="100px" alt="">
+            <input accept="image/*" onchange="sub()" id="img-form" name="image" type="file" hidden >
+            <button type="button" class="btn bg">Change image</button>
+        </form>
+    </div>
+
+
+    <div>
+        
+        <form action="." method="POST">
+            {% csrf_token %}
+            <p>
+                Username:
+                <input  type="text" value="{{user}}" name="name">
+            </p>
+    
+            <p>
+                Email:
+                <input type="text" value="{{user.profile.email}}" name="email">
+            </p>
+    
+            <div class="flex-form">
+                <button class="btn bg" type="submit">Save</button>
+                <a href="{% url 'profile' %}" class="btn border">Home</a>
+            </div>
+        </form>
+    </div>
+
+
+    <script>
+        document.querySelector('.image button').onclick = function(){
+            document.getElementById('img-form').click();
+        }
+        
+        function sub(){
+            document.querySelector('.image form').submit();
+        }
+
+
+
+    </script>
+{% endblock %}
